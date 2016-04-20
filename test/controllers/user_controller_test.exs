@@ -11,15 +11,17 @@ defmodule TodoApi.UserControllerTest do
 
   test "creates and renders resource when data is valid", %{conn: conn} do
     conn = post conn, user_path(conn, :create), user: @valid_attrs
-    assert json_response(conn, 201)["data"]["id"]
-    assert json_response(conn, 201)["data"]["email"]
-    refute json_response(conn, 201)["data"]["password"]
+    body = json_response(conn, 201)
+    assert body["data"]["id"]
+    assert body["data"]["email"]
+    refute body["data"]["password"]
     assert Repo.get_by(User, email: "foo@bar.com")
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
     conn = post conn, user_path(conn, :create), user: @invalid_attrs
-    assert json_response(conn, 422)["errors"] != %{}
+    body = json_response(conn, 422)
+    assert body["errors"] != %{}
   end
 
 end

@@ -35,6 +35,7 @@ defmodule TodoApi.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:gettext, "~> 0.9"},
      {:comeonin, "~> 2.0"},
+     {:cors_plug, "~> 1.1"},
      {:secure_random, "~> 0.2"},
      {:cowboy, "~> 1.0"}]
   end

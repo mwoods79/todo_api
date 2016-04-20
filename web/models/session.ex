@@ -8,7 +8,7 @@ defmodule TodoApi.Session do
     timestamps
   end
 
-  @required_fields ~w(token)
+  @required_fields ~w(user_id)
   @optional_fields ~w()
 
   @doc """
@@ -20,5 +20,11 @@ defmodule TodoApi.Session do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+  end
+
+  def registration_changeset(model, params \\ :empty) do
+    model
+    |> changeset(params)
+    |> put_change(:token, SecureRandom.urlsafe_base64())
   end
 end
