@@ -4,11 +4,12 @@ defmodule TodoApi.Todo do
   schema "todos" do
     field :description, :string
     field :complete, :boolean, default: false
+    field :owner_id, :integer
 
     timestamps
   end
 
-  @required_fields ~w(description complete)
+  @required_fields ~w(description complete owner_id)
   @optional_fields ~w()
 
   @doc """

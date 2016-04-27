@@ -5,13 +5,19 @@ defmodule TodoApi.TodoController do
 
   plug :scrub_params, "todo" when action in [:create, :update]
 
+  plug TodoApi.Authentication
+
   def index(conn, _params) do
-    todos = Repo.all(Todo)
+    user_id = conn.assigns.current_user.id
+    query = from t in Todo, where: t.owner_id == ^user_id
+    todos = Repo.all(query)
     render(conn, "index.json", todos: todos)
   end
 
   def create(conn, %{"todo" => todo_params}) do
-    changeset = Todo.changeset(%Todo{}, todo_params)
+    changeset = Todo.changeset(
+      %Todo{owner_id: conn.assigns.current_user.id}, todo_params
+    )
 
     case Repo.insert(changeset) do
       {:ok, todo} ->
